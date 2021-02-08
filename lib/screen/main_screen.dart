@@ -15,25 +15,36 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-
 class _MyHomePageState extends State<MyHomePage> {
   var rotate;
+  var bigSlide;
+  var smallSlide01;
+  var smallSlide02;
+  var smallSlide03;
+  var small;
+  var allMovie;
   final _controller = new PageController();
 
   @override
   void initState() {
     super.initState();
-
-    updateMovie(widget.data);
+    allMovie = updateMovie(widget.data);
+    //updateMovie(widget.data);
     print(rotate[0]['Title']);
     print('debug');
     print(rotate.length);
     print(rotate[0]['Poster']);
+    print(allMovie[0][0]['Title']);
   }
 
-  void updateMovie(dynamic dataRotate) {
-    rotate = jsonDecode(dataRotate)[0]['movies'];
-    return rotate;
+  List updateMovie(dynamic dataMovie) {
+    rotate = jsonDecode(dataMovie)[0]['movies'];
+    smallSlide01 = jsonDecode(dataMovie)[1]['movies'];
+    smallSlide02 = jsonDecode(dataMovie)[2]['movies'];
+    bigSlide = jsonDecode(dataMovie)[3]['movies'];
+    smallSlide03 = jsonDecode(dataMovie)[4]['movies'];
+    small = jsonDecode(dataMovie)[5]['movies'];
+    return [rotate, smallSlide01, smallSlide02, bigSlide,smallSlide03 ,small];
   }
 
   // Map<String, dynamic> movie1 = jsonDecode(data)[0]['movies'][0]['Title'];
@@ -67,57 +78,25 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: PageView.builder(
                         physics: new AlwaysScrollableScrollPhysics(),
                         controller: _controller,
-                        itemCount: rotate.length,
+                        itemCount: allMovie[0].length,
                         itemBuilder: (BuildContext context, int index) {
                           return SizedBox(
                             height: 450.0,
                             child: Card(
                               margin: EdgeInsets.all(10.0),
-                              child: Image.network(
-                                  rotate[index]['Poster']),
+                              child:
+                                  Image.network(allMovie[0][index]['Poster']),
                             ),
                           ); //Poster[index % _pages.length];
                         },
                       ),
                     ),
-                    // Container(
-                    //   height: 50.0,
-                    //   color: Colors.white12,
-                    //   padding: const EdgeInsets.all(20.0),
-                    //   child: new Center(
-                    //     child: new DotsIndicator(
-                    //       controller: _controller,
-                    //       itemCount: rotate.length,
-                    //       onPageSelected: (int index) {
-                    //         _controller.animateToPage(
-                    //           index,
-                    //           duration: Duration(milliseconds: 500),
-                    //           curve: Curves.ease,
-                    //         );
-                    //       },
-                    //     ),
-                    //   ),
-                    // ),
                     SmoothPageIndicator(
-                        controller: _controller,
-                        count: rotate.length,
-                    effect: WormEffect(),
+                      controller: _controller,
+                      count: allMovie[0].length,
+                      effect: WormEffect(),
                     ),
                   ],
-                ),
-              ),
-              SizedBox(
-                height: 200.0,
-                child: ListView.builder(
-                  physics: ClampingScrollPhysics(),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  itemBuilder: (BuildContext context, int index) => Card(
-                    child: Center(
-                      child: Image.network(rotate[index]['Poster']),
-                    ),
-                  ),
                 ),
               ),
               Text(
@@ -125,14 +104,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(fontSize: 18),
               ),
               SizedBox(
-                height: 200.0,
+                height: 500.0,
                 child: ListView.builder(
                   physics: ClampingScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: 15,
+                  itemCount: allMovie[3].length,
                   itemBuilder: (BuildContext context, int index) => Card(
-                    child: Center(child: Text('Dummy Card Text')),
+                    child: Center(
+                        child: Image.network(allMovie[3][index]['Poster'])),
                   ),
                 ),
               ),
@@ -141,14 +121,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(fontSize: 18),
               ),
               SizedBox(
-                height: 130.0,
+                height: 200.0,
                 child: ListView.builder(
                   physics: ClampingScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: 15,
+                  itemCount: allMovie[1].length,
                   itemBuilder: (BuildContext context, int index) => Card(
-                    child: Center(child: Text('Dummy Card Text')),
+                    child: Center(
+                        child: Image.network(allMovie[1][index]['Poster'])),
                   ),
                 ),
               ),
@@ -157,14 +138,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(fontSize: 18),
               ),
               SizedBox(
-                height: 130.0,
+                height: 200.0,
                 child: ListView.builder(
                   physics: ClampingScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: 15,
+                  itemCount: allMovie[2].length,
                   itemBuilder: (BuildContext context, int index) => Card(
-                    child: Center(child: Text('Dummy Card Text')),
+                    child: Center(
+                        child: Image.network(allMovie[2][index]['Poster'])),
                   ),
                 ),
               ),
@@ -173,50 +155,35 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(fontSize: 18),
               ),
               SizedBox(
-                height: 130.0,
+                height: 200.0,
                 child: ListView.builder(
                   physics: ClampingScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: 15,
+                  itemCount: allMovie[4].length,
                   itemBuilder: (BuildContext context, int index) => Card(
-                    child: Center(child: Text('Dummy Card Text')),
+                    child: Center(
+                        child: Image.network(allMovie[4][index]['Poster'])),
                   ),
                 ),
               ),
               Text('Small'),
               SizedBox(
-                  height: 200.0,
-                  width: 200.0,
-                  child: GridView.count(
-                    primary: false,
-                    padding: const EdgeInsets.all(20),
-                    crossAxisSpacing: 3,
-                    mainAxisSpacing: 3,
-                    crossAxisCount: 2,
-                    children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        child: const Text("He'd have you all unravel at the"),
-                        color: Colors.teal[100],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        child: const Text('Heed not the rabble'),
-                        color: Colors.teal[200],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        child: const Text('Sound of screams but the'),
-                        color: Colors.teal[300],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        child: const Text('Who scream'),
-                        color: Colors.teal[400],
-                      ),
-                    ],
-                  )),
+                height: 500.0,
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 200,
+                      childAspectRatio:  2/3,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 10),
+                  shrinkWrap: true,
+                  itemCount: allMovie[5].length,
+                  itemBuilder: (BuildContext context, int index) => Card(
+                    child: Center(
+                        child: Image.network(allMovie[5][index]['Poster'])),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
